@@ -1,70 +1,51 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import Navigation from './Common/Navigation';
 
 function HomePage() {
+  const { currentUser } = useAuth();
+
   return (
     <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen">
-      {/* Navigation Bar - Enhanced logo visibility */}
-      <header className="bg-gradient-to-r from-blue-300 to-blue-400 text-white shadow-lg">
-        <div className="container mx-auto px-4 py-6 flex flex-wrap justify-between items-center">
-          <div className="flex items-center">
-            <div className="mr-4 bg-white rounded-full p-2 shadow-lg">
-              <img 
-                src="/images/Logo.png" 
-                alt="DentiX Logo" 
-                className="h-8 w-auto" 
-              />
-            </div>
-            <h1 className="text-4xl font-bold text-blue-800 drop-shadow-lg">
-              DentiX
-            </h1>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            <a href="/doctor" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">Doctor Portal</a>
-            <a href="/patient" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">Patient Portal</a>
-            <a href="/supplier" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">Supplier Hub</a>
-            <a href="/hospital" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">Hospital Dashboard</a>
-            <a href="/admin" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">Admin</a>
-          </nav>
-          
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button className="text-white focus:outline-none">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Navigation Bar - Using common component */}
+      <Navigation />
 
-      {/* Hero Section - Improved layout */}
+      {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-10 md:mb-0 md:pr-10">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-6">
-              Revolutionizing <span className="text-blue-600">Orthodontic Care</span> in Sri Lanka
+              {currentUser 
+                ? `Welcome, ${currentUser.name}` 
+                : "Revolutionizing Orthodontic Care in Sri Lanka"}
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              DentiX connects doctors, patients, and suppliers on a single platform, making 
-              orthodontic supplies accessible while supporting low-income patients through 
-              our innovative points system.
+              {currentUser
+                ? `As a ${currentUser.role}, you can manage your orthodontic care efficiently through our platform.`
+                : "DentiX connects doctors, patients, and suppliers on a single platform, making orthodontic supplies accessible while supporting low-income patients through our innovative points system."}
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="/patient" className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Get Started
-              </a>
-              <a href="/doctor" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium border-2 border-blue-600 hover:bg-blue-50 transition duration-300">
-                Doctor Login
-              </a>
+              {currentUser ? (
+                <Link to={`/${currentUser.role}`} className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                  Go to Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link to="/patient" className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Get Started
+                  </Link>
+                  <Link to="/doctor" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium border-2 border-blue-600 hover:bg-blue-50 transition duration-300">
+                    Doctor Login
+                  </Link>
+                </>
+              )}
             </div>
           </div>
           
-          {/* Hero Image Section - Redesigned for better visual flow */}
+          {/* Hero Image Section */}
           <div className="md:w-1/2">
             <div className="relative">
-              {/* Main featured image */}
               <div className="bg-white p-3 rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
                 <div className="rounded-xl overflow-hidden">
                   <img 
@@ -74,8 +55,6 @@ function HomePage() {
                   />
                 </div>
               </div>
-              
-              {/* Floating secondary images */}
               <div className="absolute -top-6 -left-6 w-32 h-32 bg-white p-2 rounded-xl shadow-lg transform -rotate-12 hover:rotate-0 transition-transform duration-300 z-10">
                 <img 
                   src="/images/img2.jpg" 
@@ -83,7 +62,6 @@ function HomePage() {
                   className="w-full h-full object-cover rounded-lg"
                 />
               </div>
-              
               <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-white p-2 rounded-xl shadow-lg transform rotate-12 hover:rotate-0 transition-transform duration-300 z-10">
                 <img 
                   src="/images/img3.jpg" 
@@ -91,7 +69,6 @@ function HomePage() {
                   className="w-full h-full object-cover rounded-lg"
                 />
               </div>
-              
               <div className="absolute top-16 -right-4 w-28 h-28 bg-white p-2 rounded-xl shadow-lg transform rotate-6 hover:rotate-0 transition-transform duration-300">
                 <img 
                   src="/images/img5.jpg" 
@@ -104,13 +81,11 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Features Section - Added custom SVGs */}
+      {/* Features Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h3 className="text-3xl font-bold text-center text-gray-800 mb-12">Why Choose DentiX?</h3>
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Feature 1 - Simplified Ordering */}
             <div className="p-8 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl">
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-500 rounded-full flex items-center justify-center">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,8 +99,6 @@ function HomePage() {
                 Patients can order supplies via WhatsApp, SMS, or our web platform with just a few clicks or messages.
               </p>
             </div>
-            
-            {/* Feature 2 - Loyalty Points System */}
             <div className="p-8 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl">
               <div className="w-20 h-20 mx-auto mb-6 bg-green-500 rounded-full flex items-center justify-center">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,8 +111,6 @@ function HomePage() {
                 Hospitals earn points with every purchase, creating opportunities to support low-income patients.
               </p>
             </div>
-            
-            {/* Feature 3 - Community Support */}
             <div className="p-8 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl">
               <div className="w-20 h-20 mx-auto mb-6 bg-purple-500 rounded-full flex items-center justify-center">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,17 +138,29 @@ function HomePage() {
       >
         <div className="absolute inset-0 bg-blue-400 opacity-80"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h3 className="text-3xl font-bold mb-6 text-white">Ready to Transform Dental Care?</h3>
+          <h3 className="text-3xl font-bold mb-6 text-white">
+            {currentUser ? "Manage Your Dental Care Efficiently" : "Ready to Transform Dental Care?"}
+          </h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto text-white">
-            Join our platform today and be part of the revolution in orthodontic supply management.
+            {currentUser 
+              ? "Access all your tools and resources in one place." 
+              : "Join our platform today and be part of the revolution in orthodontic supply management."}
           </p>
           <div className="flex justify-center space-x-4 flex-wrap">
-            <a href="/doctor" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-gray-100 transition duration-300 shadow-lg m-2">
-              For Doctors
-            </a>
-            <a href="/patient" className="px-8 py-3 bg-blue-800 text-white rounded-full font-medium hover:bg-blue-900 transition duration-300 shadow-lg m-2">
-              For Patients
-            </a>
+            {currentUser ? (
+              <Link to={`/${currentUser.role}`} className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-gray-100 transition duration-300 shadow-lg m-2">
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link to="/doctor" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-gray-100 transition duration-300 shadow-lg m-2">
+                  For Doctors
+                </Link>
+                <Link to="/patient" className="px-8 py-3 bg-blue-800 text-white rounded-full font-medium hover:bg-blue-900 transition duration-300 shadow-lg m-2">
+                  For Patients
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -202,10 +185,10 @@ function HomePage() {
             <div>
               <h4 className="text-xl font-bold mb-4">Quick Links</h4>
               <ul className="space-y-2">
-                <li><a href="/" className="text-gray-400 hover:text-white transition duration-300">Home</a></li>
-                <li><a href="/doctor" className="text-gray-400 hover:text-white transition duration-300">Doctor Portal</a></li>
-                <li><a href="/patient" className="text-gray-400 hover:text-white transition duration-300">Patient Portal</a></li>
-                <li><a href="/supplier" className="text-gray-400 hover:text-white transition duration-300">Supplier Dashboard</a></li>
+                <li><Link to="/" className="text-gray-400 hover:text-white transition duration-300">Home</Link></li>
+                <li><Link to="/about" className="text-gray-400 hover:text-white transition duration-300">About Us</Link></li>
+                <li><Link to="/features" className="text-gray-400 hover:text-white transition duration-300">Features</Link></li>
+                <li><Link to="/how-it-works" className="text-gray-400 hover:text-white transition duration-300">How It Works</Link></li>
               </ul>
             </div>
             <div>
