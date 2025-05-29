@@ -4,7 +4,7 @@ import HomePage from './components/HomePage';
 import DoctorPortal from './components/DoctorPortal';
 import PatientInterface from './components/PatientInterface';
 import SupplierDashboard from './components/SupplierDashboard';
-import HospitalDashboard from './components/HospitalDashboard';
+import HospitalDashboard from './components/Hospital/HospitalDashboard';
 import AdminPanel from './components/AdminPanel';
 import './index.css';
 
