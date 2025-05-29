@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import HomePage from './components/HomePage';
 import DoctorPortal from './components/DoctorPortal';
 import PatientInterface from './components/PatientInterface';
-import SupplierDashboard from './components/SupplierDashboard';
+import SupplierDashboard from './components/Supplier/SupplierDashboard';
 import HospitalDashboard from './components/Hospital/HospitalDashboard';
 import AdminPanel from './components/AdminPanel';
 import Login from './components/Common/Login';
