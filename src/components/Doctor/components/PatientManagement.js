@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 
 function PatientManagement() {
   const [showNewPatientForm, setShowNewPatientForm] = useState(false);
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [sortBy, setSortBy] = useState('name');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [showPatientModal, setShowPatientModal] = useState(false);
+
   const [patients, setPatients] = useState([
     { 
-      id: 1, 
+      id: 'PAT-2025-001', 
       name: 'Amara Silva', 
       email: 'asilva@gmail.com',
       age: 16, 
@@ -13,10 +19,13 @@ function PatientManagement() {
       nextAppointment: '2025-06-15', 
       status: 'Active',
       isLowIncome: false,
-      phone: '+94 77 123 4567'
+      phone: '+94 77 123 4567',
+      registrationDate: '2025-01-15',
+      lastVisit: '2025-05-20',
+      notes: 'Regular checkups required for braces adjustment'
     },
     { 
-      id: 2, 
+      id: 'PAT-2025-002', 
       name: 'Dinesh Perera', 
       email: 'dperera@yahoo.com',
       age: 14, 
@@ -25,10 +34,13 @@ function PatientManagement() {
       nextAppointment: '2025-06-18', 
       status: 'Active',
       isLowIncome: true,
-      phone: '+94 71 987 6543'
+      phone: '+94 71 987 6543',
+      registrationDate: '2025-02-10',
+      lastVisit: '2025-05-18',
+      notes: 'Enrolled in low-income support program'
     },
     { 
-      id: 3, 
+      id: 'PAT-2025-003', 
       name: 'Malini Fernando', 
       email: 'mfernando@gmail.com',
       age: 15, 
@@ -37,10 +49,13 @@ function PatientManagement() {
       nextAppointment: '2025-07-02', 
       status: 'Maintenance',
       isLowIncome: false,
-      phone: '+94 76 555 7890'
+      phone: '+94 76 555 7890',
+      registrationDate: '2024-11-05',
+      lastVisit: '2025-05-15',
+      notes: 'Treatment completed, maintenance phase'
     },
     { 
-      id: 4, 
+      id: 'PAT-2025-004', 
       name: 'Tharushi Jayawardena', 
       email: 'tjaya@gmail.com',
       age: 13, 
@@ -49,7 +64,25 @@ function PatientManagement() {
       nextAppointment: '2025-06-22', 
       status: 'Waiting for Supplies',
       isLowIncome: false,
-      phone: '+94 70 444 1234'
+      phone: '+94 70 444 1234',
+      registrationDate: '2025-03-12',
+      lastVisit: '2025-05-25',
+      notes: 'Waiting for custom palatal expander delivery'
+    },
+    { 
+      id: 'PAT-2025-005', 
+      name: 'Kasun Bandara', 
+      email: 'kbandara@gmail.com',
+      age: 17, 
+      gender: 'M',
+      treatment: 'Clear Aligners', 
+      nextAppointment: '2025-06-25', 
+      status: 'Active',
+      isLowIncome: false,
+      phone: '+94 75 888 9999',
+      registrationDate: '2025-04-01',
+      lastVisit: '2025-05-22',
+      notes: 'Advanced aligner treatment for complex case'
     }
   ]);
 
@@ -65,6 +98,27 @@ function PatientManagement() {
     isLowIncome: false
   });
 
+  // Filter and search patients
+  const filteredPatients = patients.filter(patient => {
+    const matchesStatus = filterStatus === 'all' || patient.status.toLowerCase() === filterStatus.toLowerCase();
+    const matchesSearch = !searchTerm || 
+      patient.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.email.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearch;
+  });
+
+  // Sort patients
+  const sortedPatients = [...filteredPatients].sort((a, b) => {
+    switch(sortBy) {
+      case 'name': return a.name.localeCompare(b.name);
+      case 'age': return b.age - a.age;
+      case 'date': return new Date(b.nextAppointment) - new Date(a.nextAppointment);
+      case 'status': return a.status.localeCompare(b.status);
+      default: return 0;
+    }
+  });
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -76,7 +130,7 @@ function PatientManagement() {
   const handleAddPatient = (e) => {
     e.preventDefault();
     const newPatient = {
-      id: patients.length + 1,
+      id: `PAT-2025-${String(patients.length + 1).padStart(3, '0')}`,
       name: formData.name,
       email: formData.email,
       age: parseInt(formData.age),
@@ -85,7 +139,10 @@ function PatientManagement() {
       nextAppointment: formData.appointment,
       status: 'New Patient',
       isLowIncome: formData.isLowIncome,
-      phone: formData.phone
+      phone: formData.phone,
+      registrationDate: new Date().toISOString().split('T')[0],
+      lastVisit: null,
+      notes: formData.notes
     };
     
     setPatients([...patients, newPatient]);
@@ -133,6 +190,11 @@ function PatientManagement() {
     return colors[name.length % colors.length];
   };
 
+  const handleViewPatient = (patient) => {
+    setSelectedPatient(patient);
+    setShowPatientModal(true);
+  };
+
   // Statistics
   const totalPatients = patients.length;
   const activePatients = patients.filter(p => p.status === 'Active').length;
@@ -140,9 +202,9 @@ function PatientManagement() {
   const waitingForSupplies = patients.filter(p => p.status === 'Waiting for Supplies').length;
 
   return (
-    <div className="space-y-6">
+    <div className="p-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Patient Management</h2>
         <button 
           onClick={() => setShowNewPatientForm(true)}
@@ -156,64 +218,92 @@ function PatientManagement() {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
-          <div className="text-3xl font-bold text-blue-600 mb-1">{totalPatients}</div>
-          <div className="text-sm text-gray-600">Total Patients</div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Total Patients</h3>
+          <p className="text-2xl font-bold text-blue-600">{totalPatients}</p>
+          <p className="text-sm text-blue-500">All time</p>
         </div>
-        <div className="bg-green-50 border border-green-100 rounded-lg p-4">
-          <div className="text-3xl font-bold text-green-600 mb-1">{activePatients}</div>
-          <div className="text-sm text-gray-600">Active Treatments</div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Active Treatments</h3>
+          <p className="text-2xl font-bold text-green-600">{activePatients}</p>
+          <p className="text-sm text-green-500">Currently treated</p>
         </div>
-        <div className="bg-purple-50 border border-purple-100 rounded-lg p-4">
-          <div className="text-3xl font-bold text-purple-600 mb-1">{lowIncomePatients}</div>
-          <div className="text-sm text-gray-600">Low-Income Patients</div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Low-Income Patients</h3>
+          <p className="text-2xl font-bold text-purple-600">{lowIncomePatients}</p>
+          <p className="text-sm text-purple-500">Support program</p>
         </div>
-        <div className="bg-red-50 border border-red-100 rounded-lg p-4">
-          <div className="text-3xl font-bold text-red-600 mb-1">{waitingForSupplies}</div>
-          <div className="text-sm text-gray-600">Waiting for Supplies</div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Waiting for Supplies</h3>
+          <p className="text-2xl font-bold text-red-600">{waitingForSupplies}</p>
+          <p className="text-sm text-red-500">Needs attention</p>
         </div>
       </div>
-      
-      {/* Search and Filters */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-6">
-          <div className="relative w-full lg:w-96">
+
+      {/* Filters */}
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <select 
+              className="block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+            >
+              <option value="all">All Status</option>
+              <option value="active">Active ({patients.filter(p => p.status === 'Active').length})</option>
+              <option value="maintenance">Maintenance ({patients.filter(p => p.status === 'Maintenance').length})</option>
+              <option value="new patient">New Patient ({patients.filter(p => p.status === 'New Patient').length})</option>
+              <option value="waiting for supplies">Waiting for Supplies ({patients.filter(p => p.status === 'Waiting for Supplies').length})</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+            <select 
+              className="block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="name">Sort by Name</option>
+              <option value="age">Sort by Age</option>
+              <option value="date">Sort by Appointment</option>
+              <option value="status">Sort by Status</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
             <input 
               type="text" 
-              placeholder="Search patients by name or email..." 
-              className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Search by Patient ID, name or email..." 
+              className="block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
           </div>
-          <div className="flex space-x-2">
-            <select className="border rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>All Patients</option>
-              <option>Active Treatment</option>
-              <option>Low-Income Support</option>
-              <option>Maintenance</option>
-              <option>Waiting for Supplies</option>
-            </select>
-            <select className="border rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>Sort by Name</option>
-              <option>Sort by Date</option>
-              <option>Sort by Treatment</option>
-              <option>Sort by Status</option>
-            </select>
+          <div className="flex items-end">
+            <button 
+              onClick={() => {
+                setFilterStatus('all');
+                setSortBy('name');
+                setSearchTerm('');
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 text-gray-700"
+            >
+              Clear Filters
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* Patient List */}
-        <div className="overflow-x-auto shadow rounded-lg">
+      {/* Table View */}
+      <div className="bg-white rounded-lg shadow-md">
+        <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Patient Name
+                  Patient
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Age/Gender
@@ -233,7 +323,7 @@ function PatientManagement() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {patients.map(patient => (
+              {sortedPatients.map(patient => (
                 <tr key={patient.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
@@ -242,7 +332,7 @@ function PatientManagement() {
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">{patient.name}</div>
-                        <div className="text-sm text-gray-500">{patient.email}</div>
+                        <div className="text-sm text-gray-500">{patient.id}</div>
                       </div>
                     </div>
                   </td>
@@ -268,7 +358,12 @@ function PatientManagement() {
                     {patient.nextAppointment}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                    <button 
+                      onClick={() => handleViewPatient(patient)}
+                      className="text-blue-600 hover:text-blue-900 mr-3"
+                    >
+                      View
+                    </button>
                     <button className="text-gray-600 hover:text-gray-900">Edit</button>
                   </td>
                 </tr>
@@ -277,15 +372,111 @@ function PatientManagement() {
           </table>
         </div>
 
-        <div className="mt-4 flex justify-between items-center">
-          <div className="text-sm text-gray-500">Showing {patients.length} patients</div>
+        <div className="px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+          <div className="text-sm text-gray-500">Showing {sortedPatients.length} patients</div>
           <div className="flex space-x-2">
             <button className="px-3 py-1 border rounded-md hover:bg-gray-50">Previous</button>
             <button className="px-3 py-1 border rounded-md hover:bg-gray-50">Next</button>
           </div>
         </div>
       </div>
-      
+
+      {/* No Results */}
+      {sortedPatients.length === 0 && (
+        <div className="bg-white rounded-lg shadow-md p-12 text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 715.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No patients found</h3>
+          <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+        </div>
+      )}
+
+      {/* Patient Details Modal */}
+      {showPatientModal && selectedPatient && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="p-6 border-b">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-semibold">Patient Details - {selectedPatient.id}</h3>
+                  <p className="text-sm text-gray-600">{selectedPatient.name}</p>
+                </div>
+                <button 
+                  onClick={() => setShowPatientModal(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Personal Information */}
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-3">Personal Information</h4>
+                  <div className="space-y-2 text-sm">
+                    <div><span className="font-medium">Patient ID:</span> {selectedPatient.id}</div>
+                    <div><span className="font-medium">Full Name:</span> {selectedPatient.name}</div>
+                    <div><span className="font-medium">Age:</span> {selectedPatient.age} years</div>
+                    <div><span className="font-medium">Gender:</span> {selectedPatient.gender === 'M' ? 'Male' : 'Female'}</div>
+                    <div><span className="font-medium">Email:</span> {selectedPatient.email}</div>
+                    <div><span className="font-medium">Phone:</span> {selectedPatient.phone}</div>
+                    <div><span className="font-medium">Registration Date:</span> {selectedPatient.registrationDate}</div>
+                  </div>
+                </div>
+
+                {/* Treatment Information */}
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-3">Treatment Information</h4>
+                  <div className="space-y-2 text-sm">
+                    <div><span className="font-medium">Treatment:</span> {selectedPatient.treatment}</div>
+                    <div><span className="font-medium">Status:</span> 
+                      <span className={`ml-1 px-2 py-1 rounded text-xs ${getStatusBadge(selectedPatient.status)}`}>
+                        {selectedPatient.status}
+                      </span>
+                    </div>
+                    <div><span className="font-medium">Next Appointment:</span> {selectedPatient.nextAppointment}</div>
+                    <div><span className="font-medium">Last Visit:</span> {selectedPatient.lastVisit || 'N/A'}</div>
+                    <div><span className="font-medium">Low-Income Support:</span> {selectedPatient.isLowIncome ? 'Yes' : 'No'}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Notes */}
+              {selectedPatient.notes && (
+                <div className="mt-6">
+                  <h4 className="font-semibold text-gray-800 mb-3">Notes</h4>
+                  <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded">{selectedPatient.notes}</p>
+                </div>
+              )}
+            </div>
+            
+            <div className="p-6 border-t bg-gray-50">
+              <div className="flex justify-between items-center">
+                <div className="text-sm text-gray-600">
+                  Patient since {new Date(selectedPatient.registrationDate).toLocaleDateString()}
+                </div>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => setShowPatientModal(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                  >
+                    Close
+                  </button>
+                  <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    Edit Patient
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Add New Patient Modal */}
       {showNewPatientForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
