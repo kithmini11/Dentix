@@ -60,21 +60,30 @@ function DoctorPortal() {
               <span className="mr-2">Dr. Sarah Mendis</span>
               <span className="bg-blue-600 rounded-full px-2 py-1 text-xs">Orthodontist</span>
             </div>
-            <div className="bg-white rounded-full p-1 h-10 w-10 flex items-center justify-center shadow-md">
-              <span className="text-blue-600 font-bold">SM</span>
-            </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row">
-          {/* Sidebar */}
-          <div className="md:w-1/4 mb-6 md:mb-0 md:mr-6">
+      <div className="container mx-auto px-4 py-6">
+        {/* Doctor Dashboard Main Content */}
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Sidebar / Navigation */}
+          <div className="md:w-1/4">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
-                <h2 className="text-white font-bold text-xl">Doctor Portal</h2>
+                <div className="flex items-center">
+                  <div className="h-12 w-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <div className="ml-4">
+                    <h2 className="text-white font-bold text-xl">Doctor Portal</h2>
+                    <p className="text-blue-100 text-sm">Dr. Sarah Mendis</p>
+                  </div>
+                </div>
               </div>
+              
               <nav className="p-4">
                 <ul className="space-y-2">
                   <li>
@@ -168,7 +177,7 @@ function DoctorPortal() {
             </div>
           </div>
 
-          {/* Main Content */}
+          {/* Main Content Area */}
           <div className="md:w-3/4">
             {renderTabContent()}
           </div>
