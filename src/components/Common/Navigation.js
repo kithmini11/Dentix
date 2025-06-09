@@ -1,9 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 function Navigation() {
   const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header className="bg-gradient-to-r from-blue-300 to-blue-400 text-white shadow-lg">
@@ -29,8 +35,8 @@ function Navigation() {
                 My Dashboard
               </Link>
               <button 
-                onClick={logout}
-                className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg"
+                onClick={handleLogout}
+                className="text-white focus:outline-none hover:text-blue-100 transition duration-300 font-medium text-lg"
               >
                 Logout
               </button>
@@ -40,7 +46,7 @@ function Navigation() {
               <Link to="/about" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">About Us</Link>
               <Link to="/features" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">Features</Link>
               <Link to="/how-it-works" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">How It Works</Link>
-              <Link to="/login" className="text-white hover:text-blue-100 transition duration-300 font-medium text-lg">Login</Link>
+              <Link to="/login" className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 transition duration-300 font-medium">Login</Link>
               <Link to="/signup" className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 transition duration-300 font-medium">Sign Up</Link>
             </>
           )}

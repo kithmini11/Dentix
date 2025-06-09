@@ -1,14 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import Navigation from './Common/Navigation';
 
 function HomePage() {
-  const { currentUser } = useAuth();
-
   return (
     <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen">
-      {/* Navigation Bar - Using common component */}
+      {/* Navigation Bar */}
       <Navigation />
 
       {/* Hero Section */}
@@ -16,30 +13,18 @@ function HomePage() {
         <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-10 md:mb-0 md:pr-10">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-6">
-              {currentUser 
-                ? `Welcome, ${currentUser.name}` 
-                : "Revolutionizing Orthodontic Care in Sri Lanka"}
+              Revolutionizing Orthodontic Care in Sri Lanka
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              {currentUser
-                ? `As a ${currentUser.role}, you can manage your orthodontic care efficiently through our platform.`
-                : "DentiX connects doctors, patients, and suppliers on a single platform, making orthodontic supplies accessible while supporting low-income patients through our innovative points system."}
+              DentiX connects doctors, hospitals, and suppliers on a single platform, making orthodontic supplies accessible while supporting low-income patients through our innovative points system.
             </p>
             <div className="flex flex-wrap gap-4">
-              {currentUser ? (
-                <Link to={`/${currentUser.role}`} className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                  Go to Dashboard
-                </Link>
-              ) : (
-                <>
-                  <Link to="/patient" className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                    Get Started
-                  </Link>
-                  <Link to="/doctor" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium border-2 border-blue-600 hover:bg-blue-50 transition duration-300">
-                    Doctor Login
-                  </Link>
-                </>
-              )}
+              <Link to="/signup" className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                Get Started
+              </Link>
+              <Link to="/login" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium border-2 border-blue-600 hover:bg-blue-50 transition duration-300">
+                Login
+              </Link>
             </div>
           </div>
           
@@ -96,7 +81,7 @@ function HomePage() {
               </div>
               <h4 className="text-xl font-semibold mb-4 text-gray-800 text-center">Simplified Ordering</h4>
               <p className="text-gray-600 text-center leading-relaxed">
-                Patients can order supplies via WhatsApp, SMS, or our web platform with just a few clicks or messages.
+                Streamlined supply ordering process through WhatsApp, SMS, or web platform with just a few clicks.
               </p>
             </div>
             <div className="p-8 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl">
@@ -114,13 +99,13 @@ function HomePage() {
             <div className="p-8 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl">
               <div className="w-20 h-20 mx-auto mb-6 bg-purple-500 rounded-full flex items-center justify-center">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l-8 8-4-4" />
                 </svg>
               </div>
               <h4 className="text-xl font-semibold mb-4 text-gray-800 text-center">Community Support</h4>
               <p className="text-gray-600 text-center leading-relaxed">
-                Our platform facilitates donations to low-income patients, ensuring quality dental care for everyone.
+                Our platform facilitates support for low-income patients, ensuring quality dental care for everyone.
               </p>
             </div>
           </div>
@@ -139,28 +124,21 @@ function HomePage() {
         <div className="absolute inset-0 bg-blue-400 opacity-80"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h3 className="text-3xl font-bold mb-6 text-white">
-            {currentUser ? "Manage Your Dental Care Efficiently" : "Ready to Transform Dental Care?"}
+            Ready to Transform Dental Care?
           </h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto text-white">
-            {currentUser 
-              ? "Access all your tools and resources in one place." 
-              : "Join our platform today and be part of the revolution in orthodontic supply management."}
+            Join our platform today and be part of the revolution in orthodontic supply management.
           </p>
           <div className="flex justify-center space-x-4 flex-wrap">
-            {currentUser ? (
-              <Link to={`/${currentUser.role}`} className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-gray-100 transition duration-300 shadow-lg m-2">
-                Go to Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link to="/doctor" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-gray-100 transition duration-300 shadow-lg m-2">
-                  For Doctors
-                </Link>
-                <Link to="/patient" className="px-8 py-3 bg-blue-800 text-white rounded-full font-medium hover:bg-blue-900 transition duration-300 shadow-lg m-2">
-                  For Patients
-                </Link>
-              </>
-            )}
+            <Link to="/signup" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-gray-100 transition duration-300 shadow-lg m-2">
+              Join as Doctor
+            </Link>
+            <Link to="/signup" className="px-8 py-3 bg-blue-800 text-white rounded-full font-medium hover:bg-blue-900 transition duration-300 shadow-lg m-2">
+              Join as Hospital
+            </Link>
+            <Link to="/signup" className="px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-gray-100 transition duration-300 shadow-lg m-2">
+              Join as Supplier
+            </Link>
           </div>
         </div>
       </section>

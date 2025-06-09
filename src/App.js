@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './components/HomePage';
-import DoctorPortal from './components/DoctorPortal';
-import PatientInterface from './components/PatientInterface';
+import DoctorPortal from './components/Doctor/DoctorPortal';
 import SupplierDashboard from './components/Supplier/SupplierDashboard';
 import HospitalDashboard from './components/Hospital/HospitalDashboard';
 import AdminPanel from './components/AdminPanel';
@@ -16,26 +15,48 @@ import './index.css';
 
 // Protected route component
 function ProtectedRoute({ children, allowedRoles }) {
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
   
-  if (!currentUser) {
-    return <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
   
-  if (allowedRoles && !allowedRoles.includes(currentUser.role)) {
-    return <Navigate to="/" />;
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/" replace />;
   }
   
   return children;
 }
 
+// Home route component with redirect logic
+function HomeRoute() {
+  const { user } = useAuth();
+  
+  if (user) {
+    switch (user.role) {
+      case 'doctor':
+        return <Navigate to="/doctor" replace />;
+      case 'supplier':
+        return <Navigate to="/supplier" replace />;
+      case 'hospital':
+        return <Navigate to="/hospital" replace />;
+      case 'admin':
+        return <Navigate to="/admin" replace />;
+      default:
+        break;
+    }
+  }
+  
+  return <HomePage />;
+}
+
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <div className="min-h-screen bg-gray-100">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomeRoute />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<AboutUs />} />
@@ -44,11 +65,6 @@ function App() {
             <Route path="/doctor" element={
               <ProtectedRoute allowedRoles={['doctor']}>
                 <DoctorPortal />
-              </ProtectedRoute>
-            } />
-            <Route path="/patient" element={
-              <ProtectedRoute allowedRoles={['patient']}>
-                <PatientInterface />
               </ProtectedRoute>
             } />
             <Route path="/supplier" element={
@@ -68,8 +84,8 @@ function App() {
             } />
           </Routes>
         </div>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

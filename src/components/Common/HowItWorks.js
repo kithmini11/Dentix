@@ -1,51 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 
 function HowItWorks() {
-  const { currentUser } = useAuth();
-
   return (
     <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen">
       {/* Navigation Bar */}
-      <header className="bg-gradient-to-r from-blue-300 to-blue-400 text-white shadow-lg">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center">
-            <div className="mr-4 bg-white rounded-full p-1 shadow-lg">
-              <img 
-                src="/images/Logo.png" 
-                alt="DentiX Logo" 
-                className="h-8 w-auto" 
-              />
+      {/* Navigation Bar */}
+      <nav className="bg-white shadow-lg sticky top-0 z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center">
+              <img src="/images/Logo2.png" alt="DentiX Logo" className="h-12 w-auto mr-3" />
+              <span className="text-2xl font-bold text-blue-600">DentiX</span>
             </div>
-            <h1 className="text-3xl font-bold text-blue-800 drop-shadow-lg">
-              DentiX
-            </h1>
-          </Link>
-          
-          <div className="flex items-center space-x-4">
-            {currentUser ? (
-              <Link to={`/${currentUser.role}`} className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50">
-                Dashboard
+            <div className="hidden md:flex space-x-8">
+              <Link to="/" className="text-gray-700 hover:text-blue-600 font-medium transition duration-300">
+                Home
               </Link>
-            ) : (
-              <div className="space-x-4">
-                <Link to="/login" className="text-white hover:text-blue-100">
-                  Login
-                </Link>
-                <Link to="/signup" className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50">
-                  Sign Up
-                </Link>
-              </div>
-            )}
+              <Link to="/about" className="text-gray-700 hover:text-blue-600 font-medium transition duration-300">
+                About Us
+              </Link>
+              <Link to="/features" className="text-gray-700 hover:text-blue-600 font-medium transition duration-300">
+                Features
+              </Link>
+              <Link to="/how-it-works" className="text-blue-600 font-medium">
+                How It Works
+              </Link>              
+            </div>
+            <div className="flex space-x-4">
+              <Link to="/login" className="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium transition duration-300">
+                Login
+              </Link>
+              <Link to="/signup" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300">
+                Sign Up
+              </Link>
+            </div>
           </div>
         </div>
-      </header>
+      </nav>
+
 
       {/* Hero Section */}
       <section className="py-12 px-4">
         <div className="container mx-auto max-w-5xl">
-          <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">How DentiX Works</h1>
+          <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-6">How DentiX Works</h1>
           <p className="text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
             Our innovative platform connects all stakeholders in the orthodontic ecosystem
           </p>
@@ -226,37 +224,75 @@ function HowItWorks() {
             </div>
           </div>
           
-          {/* FAQs */}
-          <div className="bg-white rounded-xl shadow-lg p-8 mb-16">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Frequently Asked Questions</h2>
+ {/* FAQs */}
+          <div className="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-8 mb-16 border border-blue-100">
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+              Frequently Asked Questions
+            </h2>
             
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">How does the loyalty points system work?</h3>
-                <p className="text-gray-700">
-                  Hospitals earn loyalty points with every purchase of orthodontic supplies through our platform. These points can then be allocated to subsidize treatment for low-income patients, making quality orthodontic care accessible to everyone.
-                </p>
+            <div className="space-y-4">
+              <div className="group bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                <div className="flex items-start">
+                  <svg className="w-6 h-6 text-blue-500 mr-3 mt-1 group-hover:text-blue-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors duration-300">
+                      How does the loyalty points system work?
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      Hospitals earn loyalty points with every purchase of orthodontic supplies through our platform. These points can then be allocated to subsidize treatment for low-income patients, making quality orthodontic care accessible to everyone.
+                    </p>
+                  </div>
+                </div>
               </div>
               
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">How are low-income patients identified?</h3>
-                <p className="text-gray-700">
-                  Doctors and hospitals can identify patients who need financial assistance and submit applications for support. The system reviews the applications and allocates points based on need and availability.
-                </p>
+              <div className="group bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                <div className="flex items-start">
+                  <svg className="w-6 h-6 text-blue-500 mr-3 mt-1 group-hover:text-blue-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors duration-300">
+                      How are low-income patients identified?
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      Doctors and hospitals can identify patients who need financial assistance and submit applications for support. The system reviews the applications and allocates points based on need and availability.
+                    </p>
+                  </div>
+                </div>
               </div>
               
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">How do suppliers join the platform?</h3>
-                <p className="text-gray-700">
-                  Suppliers can register through our website and undergo a verification process. Once approved, they can list their products and fulfill orders from hospitals.
-                </p>
+              <div className="group bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                <div className="flex items-start">
+                  <svg className="w-6 h-6 text-blue-500 mr-3 mt-1 group-hover:text-blue-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors duration-300">
+                      How do suppliers join the platform?
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      Suppliers can register through our website and undergo a verification process. Once approved, they can list their products and fulfill orders from hospitals.
+                    </p>
+                  </div>
+                </div>
               </div>
               
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Is the platform secure?</h3>
-                <p className="text-gray-700">
-                  Yes, DentiX employs industry-standard security measures to protect all user data and transactions. Patient information is handled in compliance with healthcare privacy regulations.
-                </p>
+              <div className="group bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                <div className="flex items-start">
+                  <svg className="w-6 h-6 text-blue-500 mr-3 mt-1 group-hover:text-blue-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors duration-300">
+                      Is the platform secure?
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      Yes, DentiX employs industry-standard security measures to protect all user data and transactions. Patient information is handled in compliance with healthcare privacy regulations.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -270,20 +306,6 @@ function HowItWorks() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <img src="/images/Logo2.png" alt="DentiX" className="h-10 w-auto" />
-            </div>
-            <div className="text-center md:text-right">
-              <p className="text-gray-400">© 2025 DentiX. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

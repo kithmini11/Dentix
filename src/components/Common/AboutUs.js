@@ -1,164 +1,148 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 
 function AboutUs() {
-  const { currentUser } = useAuth();
-
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 relative">
+      {/* Background Overlay */}
+      <div className="absolute inset-0 bg-[url('/images/orthodontic-pattern.png')] bg-opacity-10 bg-repeat"></div>
+
       {/* Navigation Bar */}
-      <header className="bg-gradient-to-r from-blue-300 to-blue-400 text-white shadow-lg">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center">
-            <div className="mr-4 bg-white rounded-full p-1 shadow-lg">
-              <img 
-                src="/images/Logo.png" 
-                alt="DentiX Logo" 
-                className="h-8 w-auto" 
-              />
+      <nav className="bg-white shadow-lg sticky top-0 z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center">
+              <img src="/images/Logo2.png" alt="DentiX Logo" className="h-12 w-auto mr-3" />
+              <span className="text-2xl font-bold text-blue-600">DentiX</span>
             </div>
-            <h1 className="text-3xl font-bold text-blue-800 drop-shadow-lg">
-              DentiX
-            </h1>
-          </Link>
-          
-          <div className="flex items-center space-x-4">
-            {currentUser ? (
-              <Link to={`/${currentUser.role}`} className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50">
-                Dashboard
+            <div className="hidden md:flex space-x-8">
+              <Link to="/" className="text-gray-700 hover:text-blue-600 font-medium transition duration-300">
+                Home
               </Link>
-            ) : (
-              <div className="space-x-4">
-                <Link to="/login" className="text-white hover:text-blue-100">
-                  Login
-                </Link>
-                <Link to="/signup" className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50">
-                  Sign Up
-                </Link>
-              </div>
-            )}
+              <Link to="/about" className="text-blue-600 font-medium">
+                About Us
+              </Link>
+              <Link to="/features" className="text-gray-700 hover:text-blue-600 font-medium transition duration-300">
+                Features
+              </Link>
+              <Link to="/how-it-works" className="text-gray-700 hover:text-blue-600 font-medium transition duration-300">
+                How It Works
+              </Link>              
+            </div>
+            <div className="flex space-x-4">
+              <Link to="/login" className="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium transition duration-300">
+                Login
+              </Link>
+              <Link to="/signup" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300">
+                Sign Up
+              </Link>
+            </div>
           </div>
         </div>
-      </header>
+      </nav>
 
-      {/* Hero Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">About DentiX</h1>
+      {/* ...existing code... */}
+      <section className="py-20 px-4 relative z-10">
+        <div className="container mx-auto max-w-5xl">
+          <h1 className="text-5xl font-bold text-center text-blue-700 mb-4">
+            About DentiX
+          </h1>
+          <p className="text-center text-gray-600 text-lg max-w-2xl mx-auto mb-12">
+            Transforming orthodontic care in Sri Lanka with innovation and compassion
+          </p>
           
-          <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
-            <div className="flex flex-col md:flex-row items-center mb-8">
-              <div className="md:w-1/3 mb-6 md:mb-0">
-                <img src="/images/Logo2.png" alt="DentiX" className="h-48 mx-auto" />
+          <div className="bg-white rounded-3xl shadow-lg p-10 mb-16 border border-gray-50 transform hover:-translate-y-2 transition-all duration-500">
+            {/* Mission Section */}
+            <div className="flex flex-col md:flex-row items-center mb-12">
+              <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                <h2 className="text-3xl font-bold text-blue-700 mb-4">Our Mission</h2>
+                <p className="text-gray-700 leading-relaxed text-base">
+                  At DentiX, we're dedicated to revolutionizing orthodontic care in Sri Lanka by seamlessly connecting doctors, patients, hospitals, and suppliers on one innovative platform. Our goal is to make high-quality orthodontic supplies accessible to all, while empowering low-income patients through our unique loyalty points system.
+                </p>
               </div>
-              <div className="md:w-2/3 md:pl-8">
-                <h2 className="text-2xl font-bold text-blue-700 mb-4">Our Mission</h2>
-                <p className="text-gray-700 leading-relaxed">
-                  DentiX aims to revolutionize orthodontic care in Sri Lanka by connecting doctors, patients, suppliers, and hospitals on a single platform. We're committed to making orthodontic supplies more accessible while supporting low-income patients through our innovative points system.
+              <div className="md:w-1/2">
+                <img 
+                  src="/images/Logo2.png" 
+                  alt="DentiX Logo" 
+                  className="h-56 mx-auto transform hover:scale-105 transition-transform duration-300" 
+                />
+              </div>
+            </div>
+            
+            {/* Story Section */}
+            <div className="border-t border-gray-100 pt-8">
+              <h2 className="text-3xl font-bold text-blue-700 mb-4">Our Story</h2>
+              <p className="text-gray-700 leading-relaxed mb-6 text-base">
+                Founded in 2024, DentiX was born from a vision to bridge critical gaps in Sri Lanka's orthodontic care system. Our founders, a passionate team of healthcare professionals and tech innovators, recognized the challenges faced by government hospitals and low-income patients in accessing essential orthodontic treatments.
+              </p>
+              <p className="text-gray-700 leading-relaxed text-base">
+                By creating a unified platform, we streamline supply chains, enhance hospital operations, and foster community support through our loyalty points system. DentiX is more than a platform—it's a movement to make orthodontic care equitable and efficient for everyone.
+              </p>
+            </div>
+          </div>
+          
+          {/* Impact Section */}
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+            Our Impact
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {/* Impact Card 1 - Patients Served */}
+            <div className="relative bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 group border border-gray-100 hover:shadow-lg hover:-translate-y-1">
+              <div className="relative p-6 text-center">
+                <div className="mb-4">
+                  <svg className="h-10 w-10 text-blue-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">1,000+ Patients Served</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Empowering over a thousand low-income patients with access to affordable orthodontic care through our innovative platform.
                 </p>
               </div>
             </div>
             
-            <div className="border-t border-gray-200 pt-8">
-              <h2 className="text-2xl font-bold text-blue-700 mb-4">Our Story</h2>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                DentiX was founded in 2024 by a team of healthcare professionals and technology experts who identified a critical gap in Sri Lanka's orthodontic care system. We noticed that government hospitals faced significant challenges in managing orthodontic supplies, while low-income patients often couldn't access essential treatments.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                Our platform emerged as a solution that benefits all stakeholders in the orthodontic ecosystem. By streamlining supply management, creating a loyalty points system, and facilitating community support, DentiX transforms how orthodontic care is delivered across the country.
-              </p>
-            </div>
-          </div>
-          
-          {/* Team Section */}
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Our Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {/* Team Member 1 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:transform hover:scale-105">
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-24"></div>
-              <div className="relative px-6 pb-6">
-                <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-                  <div className="h-24 w-24 rounded-full bg-white p-2 shadow-lg">
-                    <div className="h-full w-full rounded-full bg-gray-200 flex items-center justify-center">
-                      <span className="text-blue-600 text-3xl font-bold">MP</span>
-                    </div>
-                  </div>
+            {/* Impact Card 2 - Hospitals Connected */}
+            <div className="relative bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 group border border-gray-100 hover:shadow-lg hover:-translate-y-1">
+              <div className="relative p-6 text-center">
+                <div className="mb-4">
+                  <svg className="h-10 w-10 text-blue-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
                 </div>
-                <div className="mt-16 text-center">
-                  <h3 className="text-xl font-bold text-gray-800">Mihiri Perera</h3>
-                  <p className="text-blue-600 mb-3">Founder & CEO</p>
-                  <p className="text-gray-600 text-sm">
-                    Dental Surgeon with over 12 years of experience in public healthcare.
-                  </p>
-                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">50+ Hospitals Connected</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Partnering with hospitals across Sri Lanka to streamline orthodontic supply chains and enhance operational efficiency.
+                </p>
               </div>
             </div>
             
-            {/* Team Member 2 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:transform hover:scale-105">
-              <div className="bg-gradient-to-r from-green-500 to-green-600 h-24"></div>
-              <div className="relative px-6 pb-6">
-                <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-                  <div className="h-24 w-24 rounded-full bg-white p-2 shadow-lg">
-                    <div className="h-full w-full rounded-full bg-gray-200 flex items-center justify-center">
-                      <span className="text-green-600 text-3xl font-bold">AJ</span>
-                    </div>
-                  </div>
+            {/* Impact Card 3 - Supplies Delivered */}
+            <div className="relative bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 group border border-gray-100 hover:shadow-lg hover:-translate-y-1">
+              <div className="relative p-6 text-center">
+                <div className="mb-4">
+                  <svg className="h-10 w-10 text-blue-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                  </svg>
                 </div>
-                <div className="mt-16 text-center">
-                  <h3 className="text-xl font-bold text-gray-800">Ashan Jayasuriya</h3>
-                  <p className="text-green-600 mb-3">CTO</p>
-                  <p className="text-gray-600 text-sm">
-                    Software architect specializing in healthcare information systems.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Team Member 3 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:transform hover:scale-105">
-              <div className="bg-gradient-to-r from-purple-500 to-purple-600 h-24"></div>
-              <div className="relative px-6 pb-6">
-                <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-                  <div className="h-24 w-24 rounded-full bg-white p-2 shadow-lg">
-                    <div className="h-full w-full rounded-full bg-gray-200 flex items-center justify-center">
-                      <span className="text-purple-600 text-3xl font-bold">SF</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-16 text-center">
-                  <h3 className="text-xl font-bold text-gray-800">Samanthi Fernando</h3>
-                  <p className="text-purple-600 mb-3">Operations Director</p>
-                  <p className="text-gray-600 text-sm">
-                    Former hospital administrator with expertise in healthcare logistics.
-                  </p>
-                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">10,000+ Supplies Delivered</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Delivering critical orthodontic supplies to healthcare providers across Sri Lanka, ensuring quality care reaches those who need it most.
+                </p>
               </div>
             </div>
           </div>
           
+          {/* Call to Action */}
           <div className="text-center">
-            <Link to="/signup" className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl inline-block">
+            <Link 
+              to="/signup" 
+              className="px-8 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 inline-block"
+            >
               Join DentiX Today
             </Link>
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <img src="/images/Logo2.png" alt="DentiX" className="h-10 w-auto" />
-            </div>
-            <div className="text-center md:text-right">
-              <p className="text-gray-400">© 2025 DentiX. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

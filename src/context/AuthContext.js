@@ -1,44 +1,40 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Check if user is stored in localStorage
-    const user = localStorage.getItem('dentixUser');
-    if (user) {
-      setCurrentUser(JSON.parse(user));
-    }
-    setLoading(false);
-  }, []);
+  const [user, setUser] = useState(null);
 
   const login = (userData) => {
-    localStorage.setItem('dentixUser', JSON.stringify(userData));
-    setCurrentUser(userData);
+    setUser({
+      email: userData.email,
+      role: userData.role,
+      isAuthenticated: true
+    });
   };
 
   const logout = () => {
-    localStorage.removeItem('dentixUser');
-    setCurrentUser(null);
+    setUser(null);
   };
 
   const value = {
-    currentUser,
+    user,
     login,
     logout,
-    loading
+    isAuthenticated: !!user
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth() {
-  return useContext(AuthContext);
 }
