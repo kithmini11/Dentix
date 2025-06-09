@@ -4,7 +4,6 @@ import HomePage from './components/HomePage';
 import DoctorPortal from './components/Doctor/DoctorPortal';
 import SupplierDashboard from './components/Supplier/SupplierDashboard';
 import HospitalDashboard from './components/Hospital/HospitalDashboard';
-import AdminPanel from './components/AdminPanel';
 import Login from './components/Common/Login';
 import Signup from './components/Common/Signup/Signup';
 import AboutUs from './components/Common/AboutUs';
@@ -39,9 +38,7 @@ function HomeRoute() {
       case 'supplier':
         return <Navigate to="/supplier" replace />;
       case 'hospital':
-        return <Navigate to="/hospital" replace />;
-      case 'admin':
-        return <Navigate to="/admin" replace />;
+        return <Navigate to="/hospital" replace />;     
       default:
         break;
     }
@@ -76,12 +73,7 @@ function App() {
               <ProtectedRoute allowedRoles={['hospital']}>
                 <HospitalDashboard />
               </ProtectedRoute>
-            } />
-            <Route path="/admin" element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminPanel />
-              </ProtectedRoute>
-            } />
+            } />            
           </Routes>
         </div>
       </AuthProvider>

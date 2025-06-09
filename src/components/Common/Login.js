@@ -121,8 +121,7 @@ function Login() {
                     <option value="">Select your role</option>
                     <option value="doctor">Doctor</option>
                     <option value="hospital">Hospital</option>
-                    <option value="supplier">Supplier</option>
-                    <option value="admin">Admin</option>
+                    <option value="supplier">Supplier</option>                   
                   </select>
                 </div>
                 
@@ -179,8 +178,7 @@ function Login() {
                   <div className="text-xs text-gray-500 space-y-1">
                     <p>Doctor: doctor@example.com / password123</p>
                     <p>Hospital: hospital@example.com / password123</p>
-                    <p>Supplier: supplier@example.com / password123</p>
-                    <p>Admin: admin@example.com / password123</p>
+                    <p>Supplier: supplier@example.com / password123</p>                    
                   </div>
                 </div>
                 
