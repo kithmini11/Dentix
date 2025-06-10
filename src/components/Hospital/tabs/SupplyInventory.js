@@ -6,6 +6,7 @@ function SupplyInventory() {
     {
       id: 'PRESC-001',
       prescriptionId: 'PRESC-001',
+      orderNumber: 'ORD-2025-0001',
       doctorName: 'Dr. Sarah Mendis',
       patientId: 'PAT-2025-001',
       patientName: 'Amara Silva',
@@ -22,6 +23,7 @@ function SupplyInventory() {
     {
       id: 'PRESC-002',
       prescriptionId: 'PRESC-002',
+      orderNumber: 'ORD-2025-0002',
       doctorName: 'Dr. Sarah Mendis',
       patientId: 'PAT-2025-002',
       patientName: 'Dinesh Perera',
@@ -40,6 +42,7 @@ function SupplyInventory() {
     {
       id: 'PRESC-003',
       prescriptionId: 'PRESC-003',
+      orderNumber: 'ORD-2025-0003',
       doctorName: 'Dr. Sarah Mendis',
       patientId: 'PAT-2025-003',
       patientName: 'Malini Fernando',
@@ -493,6 +496,7 @@ function SupplyInventory() {
                   <tr key={prescription.id} className="border-b hover:bg-gray-50">
                     <td className="py-3 px-4">
                       <div className="text-sm font-medium text-gray-900">{prescription.prescriptionId}</div>
+                      <div className="text-sm font-semibold text-blue-600">Order: {prescription.orderNumber}</div>
                       <div className="text-sm text-gray-500">{prescription.requestDate}</div>
                     </td>
                     <td className="py-3 px-4">
@@ -597,7 +601,11 @@ function SupplyInventory() {
           <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">Review Prescription - {selectedPrescription.prescriptionId}</h3>
+                <div>
+                  <h3 className="text-lg font-semibold">Review Prescription - {selectedPrescription.prescriptionId}</h3>
+                  <p className="text-sm text-gray-600">Order Number: {selectedPrescription.orderNumber}</p>
+                  <p className="text-sm text-gray-600">Requested on {selectedPrescription.requestDate}</p>
+                </div>
                 <button 
                   onClick={() => setShowPrescriptionModal(false)}
                   className="text-gray-500 hover:text-gray-700"
@@ -611,6 +619,8 @@ function SupplyInventory() {
             
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4 text-sm">
+                <div><span className="font-medium">Prescription ID:</span> {selectedPrescription.prescriptionId}</div>
+                <div><span className="font-medium">Order Number:</span> {selectedPrescription.orderNumber}</div>
                 <div><span className="font-medium">Doctor:</span> {selectedPrescription.doctorName}</div>
                 <div><span className="font-medium">Patient:</span> {selectedPrescription.patientName}</div>
                 <div><span className="font-medium">Patient ID:</span> {selectedPrescription.patientId}</div>

@@ -11,6 +11,7 @@ function SupplyOrders() {
   const [prescriptions, setPrescriptions] = useState([
     { 
       id: 'PRESC-001',
+      orderNumber: 'ORD-2025-0001',
       patientId: 'PAT-2025-001',
       patientName: 'Amara Silva',
       item: 'Ceramic Brackets',
@@ -20,10 +21,12 @@ function SupplyOrders() {
       priority: 'Normal',
       hospitalResponse: 'Under Review',
       patientType: 'General',
-      notes: 'Standard ceramic brackets for adult patient treatment'
+      notes: 'Standard ceramic brackets for adult patient treatment',
+      doctorName: 'Dr. Sarah Mendis'
     },
     { 
       id: 'PRESC-002',
+      orderNumber: 'ORD-2025-0002',
       patientId: 'PAT-2025-002',
       patientName: 'Dinesh Perera',
       item: 'Metal Brackets',
@@ -33,10 +36,12 @@ function SupplyOrders() {
       priority: 'High',
       hospitalResponse: 'Inventory Check Complete - Ordering from Supplier',
       patientType: 'Low-Income',
-      notes: 'Urgent requirement for low-income patient treatment'
+      notes: 'Urgent requirement for low-income patient treatment',
+      doctorName: 'Dr. Sarah Mendis'
     },
     { 
       id: 'PRESC-003',
+      orderNumber: 'ORD-2025-0003',
       patientId: 'PAT-2025-003',
       patientName: 'Malini Fernando',
       item: 'Retainer',
@@ -46,10 +51,12 @@ function SupplyOrders() {
       priority: 'Normal',
       hospitalResponse: 'Item Available - Ready for Treatment',
       patientType: 'General',
-      notes: 'Custom retainer for post-treatment maintenance'
+      notes: 'Custom retainer for post-treatment maintenance',
+      doctorName: 'Dr. Sarah Mendis'
     },
     { 
       id: 'PRESC-004',
+      orderNumber: 'ORD-2025-0004',
       patientId: 'PAT-2025-004',
       patientName: 'Kasun Rajapakse',
       item: 'Orthodontic Wires 0.016"',
@@ -59,10 +66,12 @@ function SupplyOrders() {
       priority: 'High',
       hospitalResponse: 'Supplier Order Placed - ETA 3 days',
       patientType: 'Low-Income',
-      notes: 'Special wires for complex case'
+      notes: 'Special wires for complex case',
+      doctorName: 'Dr. Sarah Mendis'
     },
     { 
       id: 'PRESC-005',
+      orderNumber: 'ORD-2025-0005',
       patientId: 'PAT-2025-005',
       patientName: 'Nisha Wickramasinghe',
       item: 'Palatal Expander',
@@ -72,7 +81,8 @@ function SupplyOrders() {
       priority: 'Normal',
       hospitalResponse: 'Patient postponed treatment',
       patientType: 'General',
-      notes: 'Custom expander - treatment postponed by patient'
+      notes: 'Custom expander - treatment postponed by patient',
+      doctorName: 'Dr. Sarah Mendis'
     }
   ]);
 
@@ -111,6 +121,7 @@ function SupplyOrders() {
     const matchesStatus = filterStatus === 'all' || prescription.status.toLowerCase().includes(filterStatus.toLowerCase());
     const matchesSearch = !searchTerm || 
       prescription.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      prescription.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
       prescription.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       prescription.item.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesStatus && matchesSearch;
@@ -138,8 +149,12 @@ function SupplyOrders() {
   const handleSubmitPrescription = (e) => {
     e.preventDefault();
     
+    // Generate unique order number for patient reference
+    const orderNumber = `ORD-${new Date().getFullYear()}-${String(prescriptions.length + 1).padStart(4, '0')}`;
+    
     const newPrescription = {
       id: `PRESC-${String(prescriptions.length + 1).padStart(3, '0')}`,
+      orderNumber: orderNumber,
       patientId: formData.patientId,
       patientName: formData.patientName,
       item: formData.item,
@@ -149,10 +164,15 @@ function SupplyOrders() {
       priority: formData.priority,
       hospitalResponse: 'Pending Review',
       patientType: formData.patientType,
-      notes: formData.notes
+      notes: formData.notes,
+      doctorName: 'Dr. Sarah Mendis'
     };
     
     setPrescriptions([...prescriptions, newPrescription]);
+    
+    // Show success message with order number
+    alert(`Prescription sent successfully!\nOrder Number: ${orderNumber}\nPlease provide this number to your patient.`);
+    
     setShowPrescriptionForm(false);
     setFormData({
       patientId: '',
@@ -187,6 +207,30 @@ function SupplyOrders() {
   const handleViewPrescription = (prescription) => {
     setSelectedPrescription(prescription);
     setShowPrescriptionModal(true);
+  };
+
+  const handlePrintOrder = (prescription) => {
+    const printContent = `
+      <div style="padding: 20px; font-family: Arial, sans-serif;">
+        <h2>Dental Supply Order</h2>
+        <hr>
+        <p><strong>Order Number:</strong> ${prescription.orderNumber}</p>
+        <p><strong>Patient:</strong> ${prescription.patientName} (${prescription.patientId})</p>
+        <p><strong>Doctor:</strong> ${prescription.doctorName}</p>
+        <p><strong>Item:</strong> ${prescription.item}</p>
+        <p><strong>Quantity:</strong> ${prescription.quantity}</p>
+        <p><strong>Priority:</strong> ${prescription.priority}</p>
+        <p><strong>Date:</strong> ${prescription.requestDate}</p>
+        <p><strong>Status:</strong> ${prescription.status}</p>
+        <hr>
+        <p><em>Please keep this order number for tracking your supply request.</em></p>
+      </div>
+    `;
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    printWindow.print();
   };
 
   // Statistics
@@ -319,6 +363,7 @@ function SupplyOrders() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
                       <div className="text-sm font-medium text-gray-900">{prescription.id}</div>
+                      <div className="text-sm font-semibold text-blue-600">Order: {prescription.orderNumber}</div>
                       <div className="text-sm text-gray-500">{prescription.requestDate}</div>
                     </div>
                   </td>
@@ -353,6 +398,12 @@ function SupplyOrders() {
                       className="text-blue-600 hover:text-blue-900 mr-3"
                     >
                       View
+                    </button>
+                    <button 
+                      onClick={() => handlePrintOrder(prescription)}
+                      className="text-green-600 hover:text-green-900 mr-3"
+                    >
+                      Print Order
                     </button>
                     {prescription.status === 'Sent to Hospital' && (
                       <button className="text-red-600 hover:text-red-900">Cancel</button>
@@ -397,9 +448,11 @@ function SupplyOrders() {
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div><span className="font-medium">Prescription ID:</span> {selectedPrescription.id}</div>
+                <div><span className="font-medium">Order Number:</span> {selectedPrescription.orderNumber}</div>
                 <div><span className="font-medium">Patient:</span> {selectedPrescription.patientName}</div>
                 <div><span className="font-medium">Patient ID:</span> {selectedPrescription.patientId}</div>
                 <div><span className="font-medium">Request Date:</span> {selectedPrescription.requestDate}</div>
+                <div><span className="font-medium">Doctor:</span> {selectedPrescription.doctorName}</div>
                 <div><span className="font-medium">Item:</span> {selectedPrescription.item}</div>
                 <div><span className="font-medium">Quantity:</span> {selectedPrescription.quantity}</div>
                 <div><span className="font-medium">Priority:</span> {selectedPrescription.priority}</div>
@@ -433,6 +486,12 @@ function SupplyOrders() {
                   className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
                 >
                   Close
+                </button>
+                <button 
+                  onClick={() => handlePrintOrder(selectedPrescription)}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 mr-2"
+                >
+                  Print Order
                 </button>
                 {selectedPrescription.status === 'Sent to Hospital' && (
                   <button className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
