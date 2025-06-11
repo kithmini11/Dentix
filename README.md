@@ -104,35 +104,35 @@ npm run eject      # Ejects CRA setup (irreversible)
 - Authentication: Custom JWT-based system
 
 ## 🔧 Configuration
--Tailwind CSS
-  -Configuration can be found in tailwind.config.js
+Tailwind CSS
+- Configuration can be found in tailwind.config.js
 
--Environment Setup
-  -For production, configure your backend API endpoint variables.
+Environment Setup
+- For production, configure your backend API endpoint variables.
 
 ## 📊 Key Components
 
--Authentication System
- -AuthContext.js: Manages user authentication state
- -Role-based access control per user type
+ #### Authentication System
+- AuthContext.js: Manages user authentication state
+- Role-based access control per user type
 
--Main Pages
- -HomePage.js: Landing page with features overview
- -AboutUs.js: Company information and mission
- -Features.js: Detailed feature descriptions
- -HowItWorks.js: Platform usage guide
+#### Main Pages
+ - HomePage.js: Landing page with features overview
+ - AboutUs.js: Company information and mission
+ - Features.js: Detailed feature descriptions
+ - HowItWorks.js: Platform usage guide
 
--Dashboards
- -Hospital: Patient management, loyalty programs, analytics
- -Doctor: Patient records, treatment planning
- -Supplier: Inventory management, order processing
+#### Dashboards
+ - Hospital: Patient management, loyalty programs, analytics
+ - Doctor: Patient records, treatment planning
+ - Supplier: Inventory management, order processing
 
-##📝 License
+## 📝 License
 This project is licensed under the MIT License – see the LICENSE file for details.
 
-##🙏 Acknowledgments
--Sri Lankan healthcare professionals who inspired this project
--The open source community
--Government hospitals participating in the orthodontic care initiative
+## 🙏 Acknowledgments
+- Sri Lankan healthcare professionals who inspired this project
+- The open source community
+- Government hospitals participating in the orthodontic care initiative
 
-### DentiX – Transforming orthodontic care accessibility in Sri Lanka, one smile at a time. 🦷✨
+#### DentiX – Transforming orthodontic care accessibility in Sri Lanka, one smile at a time. 🦷✨
